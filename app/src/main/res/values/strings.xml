@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AplicacionBdd</string>
+
+
+    <string name="btnCamara">Camara</string>
+    <string name="viewFoto">Foto</string>
+    <string name="txtTitulo">Titulo</string>
+    <string name="txtDesc">Descripción</string>
+    <string name="txtId">ID</string>
+    <string name="txtRuta">Ruta</string>
+    <string name="btnEnviar">Enviar</string>
+    <string name="btnBsucar">Buscar</string>
+</resources>
