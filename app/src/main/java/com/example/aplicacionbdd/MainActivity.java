@@ -2,43 +2,30 @@ package com.example.aplicacionbdd;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
 import android.app.ProgressDialog;
-
 import android.content.Intent;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Bitmap imgBitmap;
     Uri fotoUri;
     StringRequest stringRequest;
+    String imagenString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,28 +109,22 @@ public class MainActivity extends AppCompatActivity {
 
          String url="http://192.168.1.133/BDAndroid/JSONRegistro.php?";
 
-         stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-             @Override
-             public void onResponse(String response) {
+         stringRequest= new StringRequest(Request.Method.POST, url, response -> {
+            progeso.hide();
+
+            if (response.trim().equalsIgnoreCase("registrado")){
+                txtId.setText("");
+                txtTitulo.setText("");
+                txtDesc.setText("");
+                Toast.makeText(getApplicationContext(),"Se ha registrado con exito",Toast.LENGTH_SHORT).show();
+
+            }else{
+                Toast.makeText(getApplicationContext(),"No se ha registrado con exito",Toast.LENGTH_SHORT).show();
                 progeso.hide();
-
-                if (response.trim().equalsIgnoreCase("registrado")){
-                    txtId.setText("");
-                    txtTitulo.setText("");
-                    txtDesc.setText("");
-                    Toast.makeText(getApplicationContext(),"Se ha registrado con exito",Toast.LENGTH_SHORT).show();
-
-                }else{
-                    Toast.makeText(getApplicationContext(),"No se ha registrado con exito",Toast.LENGTH_SHORT).show();
-                    progeso.hide();
-                }
-             }
-         }, new Response.ErrorListener() {
-             @Override
-             public void onErrorResponse(VolleyError error) {
-                 Toast.makeText(getApplicationContext(),"No se ha podido conectar",Toast.LENGTH_SHORT).show();
-                 progeso.hide();
-             }
+            }
+         }, error -> {
+             Toast.makeText(getApplicationContext(),"No se ha podido conectar",Toast.LENGTH_SHORT).show();
+             progeso.hide();
          }){
              @Override
              protected Map<String, String> getParams() throws AuthFailureError {
@@ -166,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,array);
         byte[] imagenByte = array.toByteArray();
-        String imagenString = Base64.encodeToString(imagenByte,Base64.DEFAULT);
+        imagenString = Base64.encodeToString(imagenByte,Base64.DEFAULT);
         return imagenString;
     }
 

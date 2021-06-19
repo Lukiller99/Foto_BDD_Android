@@ -44,6 +44,7 @@ public class Consulta extends AppCompatActivity   {
         txtDescripcionC=findViewById(R.id.txtDescripcionC);
         viewFotoC=findViewById(R.id.viewFotoC);
         request= Volley.newRequestQueue(this);
+
         btnBuscarC.setOnClickListener(view -> cargarServidorWeb());
 
     }
@@ -59,10 +60,8 @@ public class Consulta extends AppCompatActivity   {
             @Override
             public void onResponse(JSONObject response) {
                 progeso.hide();
-
                 JSONArray json =response.optJSONArray("fotos");
                 JSONObject jsonObject=null;
-
                 try {
                     jsonObject=json.getJSONObject(0);
                     txtTituloC.setText(jsonObject.optString("titulo"));
@@ -71,40 +70,21 @@ public class Consulta extends AppCompatActivity   {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 urlImagen="http://192.168.1.133/BDAndroid/"+txtRutaC.getText();
                 Toast.makeText(getApplicationContext(),"URL: "+urlImagen,Toast.LENGTH_SHORT).show();
-
-
                 cargarWebServiceImagen(urlImagen);
-
             }
-
             private void cargarWebServiceImagen(String urlImagen) {
                 urlImagen = urlImagen.replace(" ","%20");
-                ImageRequest imageRequest = new ImageRequest(urlImagen, new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap response) {
-                        viewFotoC.setImageBitmap(response);
-                    }
-                }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),"No se puede cargar la imagen "+error.toString(),Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+                ImageRequest imageRequest = new ImageRequest(urlImagen, response -> viewFotoC.setImageBitmap(response), 0, 0, ImageView.ScaleType.CENTER, null,
+                        error -> Toast.makeText(getApplicationContext(),"No se puede cargar la imagen "+error.toString(),Toast.LENGTH_SHORT).show());
                 request.add(imageRequest);
             }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),"No se puede conectar: "+error.toString(),Toast.LENGTH_SHORT).show();
-                System.out.println();
-                progeso.hide();
-                Log.d("ERROR",error.toString());
-            }
+        }, error -> {
+            Toast.makeText(getApplicationContext(),"No se puede conectar: "+error.toString(),Toast.LENGTH_SHORT).show();
+            System.out.println();
+            progeso.hide();
+            Log.d("ERROR",error.toString());
         });
         request.add(jsonObjectRequest);
 
