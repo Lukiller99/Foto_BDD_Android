@@ -11,7 +11,10 @@ if(isset($_GET["id"])){
     $conexion = mysqli_connect($hostname,$username,$password,$database);
 
     $consulta = "select * from fotos where id= '{$id}'";
+   
+
     $resultado=mysqli_query($conexion,$consulta);
+    
 
     if($registro=mysqli_fetch_array($resultado)){
         $resul["id"]=$registro["id"];
@@ -35,3 +38,4 @@ if(isset($_GET["id"])){
     echo json_encode($json);
 
 }
+

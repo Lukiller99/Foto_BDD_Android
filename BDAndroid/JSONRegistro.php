@@ -28,3 +28,15 @@ if($stm->execute()){
     echo "noRegistra";
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
