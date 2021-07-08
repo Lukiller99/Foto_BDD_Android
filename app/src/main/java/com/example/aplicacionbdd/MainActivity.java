@@ -1,17 +1,26 @@
 package com.example.aplicacionbdd;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +28,6 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import java.io.ByteArrayOutputStream;
@@ -41,11 +48,15 @@ public class MainActivity extends AppCompatActivity {
     Uri fotoUri;
     StringRequest stringRequest;
     String imagenString;
+    NotificationChannel channel;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
         btnCamara = findViewById(R.id.btnCamara);
         btnEnviar = findViewById(R.id.btnEnviar);
         btnBuscar = findViewById(R.id.btnBuscar);
@@ -54,21 +65,38 @@ public class MainActivity extends AppCompatActivity {
         txtRuta=findViewById(R.id.txtRuta);
         txtId=findViewById(R.id.txtId);
         imgView = findViewById(R.id.viewFoto);
-
         request= Volley.newRequestQueue(this);
-
         btnCamara.setOnClickListener(view -> {
             abrirCamara();
             txtId.setText("");
             txtDesc.setText("");
             txtTitulo.setText("");
+            iniciaServicio(view);
         });
        btnEnviar.setOnClickListener(view -> cargarServicioWeb());
-
        btnBuscar.setOnClickListener(view -> {
            Intent intent = new Intent(this,Consulta.class);
+
            startActivity(intent);
+
        });
+    }
+    public void iniciaServicio(View view) {
+        Intent intent = new Intent(this, GetSomeService.class);
+        startService(intent);
+    }
+    public void creaAlarma(View view) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000, alarmPendingIntent);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createNotificationChannel() {
+        channel = new NotificationChannel("IdPrueba", "CanalPrueba", NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("Canal de pruebas");
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 
 
@@ -117,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
                 txtTitulo.setText("");
                 txtDesc.setText("");
                 Toast.makeText(getApplicationContext(),"Se ha registrado con exito",Toast.LENGTH_SHORT).show();
-
             }else{
                 Toast.makeText(getApplicationContext(),"No se ha registrado con exito",Toast.LENGTH_SHORT).show();
                 progeso.hide();

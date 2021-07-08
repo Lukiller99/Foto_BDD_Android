@@ -48,6 +48,9 @@ public class Consulta extends AppCompatActivity   {
         btnBuscarC.setOnClickListener(view -> cargarServidorWeb());
 
     }
+    private void comprobar (){
+
+    }
 
     private void cargarServidorWeb() {
         progeso=new ProgressDialog(this);

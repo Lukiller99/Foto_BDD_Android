@@ -15,18 +15,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
         android:id="@+id/txtTituloC"
-        android:layout_width="165dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="149dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
         android:text="Titulo"
         android:textColor="#03A9F4"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.061"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBuscarC" />
 
@@ -34,24 +35,22 @@
         android:id="@+id/txtDescripcionC"
         android:layout_width="215dp"
         android:layout_height="30dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
+        android:layout_marginTop="8dp"
         android:text="Descripción"
         android:textColor="#2196F3"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.567"
-        app:layout_constraintStart_toEndOf="@+id/txtTituloC"
-        app:layout_constraintTop_toTopOf="@+id/btnBuscarC" />
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTituloC" />
 
     <ImageView
         android:id="@+id/viewFotoC"
         android:layout_width="310dp"
         android:layout_height="315dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="116dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDescripcionC"
         tools:srcCompat="@tools:sample/avatars" />
@@ -75,13 +74,14 @@
 
     <TextView
         android:id="@+id/txtRutaC"
-        android:layout_width="378dp"
-        android:layout_height="21dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="276dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
         android:text="Path dentro del Servidor"
         android:textColor="#2196F3"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.125"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDescripcionC" />
 
