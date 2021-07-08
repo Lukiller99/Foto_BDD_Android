@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         createNotificationChannel();
         btnCamara = findViewById(R.id.btnCamara);
+
+        Button AC =(Button) findViewById(R.id.AC);
+
         btnEnviar = findViewById(R.id.btnEnviar);
         btnBuscar = findViewById(R.id.btnBuscar);
         txtTitulo = findViewById(R.id.txtTitulo);
@@ -71,17 +74,18 @@ public class MainActivity extends AppCompatActivity {
             txtId.setText("");
             txtDesc.setText("");
             txtTitulo.setText("");
-            iniciaServicio(view);
+
         });
        btnEnviar.setOnClickListener(view -> cargarServicioWeb());
        btnBuscar.setOnClickListener(view -> {
            Intent intent = new Intent(this,Consulta.class);
-
            startActivity(intent);
 
        });
+
+       AC.setOnClickListener(view -> iniciaServicio());
     }
-    public void iniciaServicio(View view) {
+    public void iniciaServicio() {
         Intent intent = new Intent(this, GetSomeService.class);
         startService(intent);
     }
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000, alarmPendingIntent);
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private void createNotificationChannel() {
         channel = new NotificationChannel("IdPrueba", "CanalPrueba", NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription("Canal de pruebas");
@@ -165,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                  parametros.put("titulo",titulo);
                  parametros.put("descripcion",descripcion);
                  parametros.put("foto",foto);
+
 
                  return parametros;
              }

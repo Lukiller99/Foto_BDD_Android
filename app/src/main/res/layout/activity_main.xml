@@ -58,13 +58,18 @@
         android:id="@+id/btnEnviar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enviar"
-        android:onClick="creaAlarma"/>
+        android:text="Enviar" />
 
     <Button
         android:id="@+id/btnBuscar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Buscar" />
+
+    <Button
+        android:id="@+id/AC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 
 </LinearLayout>
