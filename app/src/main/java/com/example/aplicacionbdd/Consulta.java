@@ -63,7 +63,6 @@ public class Consulta extends AppCompatActivity   {
     }
 
 
-
     private void cargarServidorWeb() {
         progeso=new ProgressDialog(this);
         progeso.setMessage("Cargando...");
