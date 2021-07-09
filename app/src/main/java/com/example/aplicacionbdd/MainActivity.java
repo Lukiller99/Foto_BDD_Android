@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
 
         btnCamara = findViewById(R.id.btnCamara);
-        Button AC =(Button) findViewById(R.id.AC);
+
         btnEnviar = findViewById(R.id.btnEnviar);
         btnBuscar = findViewById(R.id.btnBuscar);
         txtTitulo = findViewById(R.id.txtTitulo);
@@ -102,20 +102,29 @@ public class MainActivity extends AppCompatActivity {
 
        });
 
-       AC.setOnClickListener(view ->{
-
-
-
-       } );
-        actualiza();
+        onMapReady();
         creaAlarma();
     }
 
-    public void iniciaServicio() {
-        Intent intent = new Intent(this, GetSomeService.class);
-        startService(intent);
+    public void onMapReady() {
+        ejecutarTarea();
     }
 
+    private final int TIEMPO = 50000;
+    public void ejecutarTarea() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+                // función a ejecutar
+                actualiza(); // función para refrescar la ubicación del conductor, creada en otra línea de código
+
+                handler.postDelayed(this, TIEMPO);
+            }
+
+        }, TIEMPO);
+
+    }
     public void creaAlarma() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);

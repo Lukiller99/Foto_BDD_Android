@@ -6,33 +6,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.aplicacionbdd.Consulta;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import static com.example.aplicacionbdd.MainActivity.descripcion;
 import static com.example.aplicacionbdd.MainActivity.titulo;
 import static com.example.aplicacionbdd.MainActivity.ruta;
 public class GetSomeService extends IntentService {
 
 
-
     public GetSomeService() {
         super("GetSomeService");
     }
-
-
 
     @Override
     public void onHandleIntent(Intent intent) {
@@ -68,45 +50,6 @@ public class GetSomeService extends IntentService {
         NotificationManager notifMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notifMgr.notify(NOTIF_ID, notif);
     }
-
-//    private void Actualizacion() {
-//        url = "http://192.168.1.133/BDAndroid/.php?id=3";
-//        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//
-//                JSONArray json = response.optJSONArray("fotos");
-//                JSONObject jsonObject = null;
-//                try {
-//                    jsonObject = json.getJSONObject(0);
-//                    titulo = jsonObject.optString("titulo");
-//                    descripcion = jsonObject.optString("descripcion");
-//                    ruta = jsonObject.optString("ruta");
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-////                    urlImagen="http://192.168.1.133/BDAndroid/"+txtRutaC.getText();
-////                    Toast.makeText(getApplicationContext(),"URL: "+urlImagen,Toast.LENGTH_SHORT).show();
-////                    cargarWebServiceImagen(urlImagen);
-//            }
-//
-//
-////                private void cargarWebServiceImagen(String urlImagen) {
-////                    urlImagen = urlImagen.replace(" ","%20");
-////                    ImageRequest imageRequest = new ImageRequest(urlImagen, response -> viewFotoC.setImageBitmap(response), 0, 0, ImageView.ScaleType.CENTER, null,
-////                            error -> Toast.makeText(getApplicationContext(),"No se puede cargar la imagen "+error.toString(),Toast.LENGTH_SHORT).show());
-////                    request.add(imageRequest);
-////                }
-//        }, error -> {
-//            Toast.makeText(getApplicationContext(), "No se puede conectar: " + error.toString(), Toast.LENGTH_SHORT).show();
-//            System.out.println();
-//
-//            Log.d("ERROR", error.toString());
-//        });
-//
-//        request.add(jsonObjectRequest);
-//    }
 
 
 }

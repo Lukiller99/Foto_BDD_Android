@@ -66,10 +66,4 @@
         android:layout_height="wrap_content"
         android:text="Buscar" />
 
-    <Button
-        android:id="@+id/AC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
 </LinearLayout>

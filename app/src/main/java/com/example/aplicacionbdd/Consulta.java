@@ -30,7 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.example.aplicacionbdd.Helpers.NotificacionHelper.CANAL_ID;
+
 
 public class Consulta extends AppCompatActivity   {
     Button btnBuscarC;

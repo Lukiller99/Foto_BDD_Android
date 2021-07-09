@@ -16,7 +16,6 @@ public class Notificado extends Activity {
         super.onCreate(savedInstanceState);
 
 
-
         TextView tv = new TextView(this);
 
         tv.setText(new String(titulo)+' '+new String(ruta)+' '+new String(descripcion));
