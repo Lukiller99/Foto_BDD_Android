@@ -2,6 +2,8 @@ package com.example.aplicacionbdd;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.FileProvider;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -16,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -28,13 +31,24 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+
 
 public class MainActivity extends AppCompatActivity {
     Button btnCamara,btnEnviar,btnBuscar;
@@ -49,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
     StringRequest stringRequest;
     String imagenString;
     NotificationChannel channel;
+    String url,urlImagen;
+    JsonObjectRequest  jsonObjectRequest;
+    private static final int notid = 1;
+
+    public static String titulo,descripcion,ruta;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -57,10 +77,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createNotificationChannel();
+
         btnCamara = findViewById(R.id.btnCamara);
-
         Button AC =(Button) findViewById(R.id.AC);
-
         btnEnviar = findViewById(R.id.btnEnviar);
         btnBuscar = findViewById(R.id.btnBuscar);
         txtTitulo = findViewById(R.id.txtTitulo);
@@ -83,22 +102,39 @@ public class MainActivity extends AppCompatActivity {
 
        });
 
-       AC.setOnClickListener(view -> iniciaServicio());
+       AC.setOnClickListener(view ->{
+
+
+
+       } );
+        actualiza();
+        creaAlarma();
     }
+
     public void iniciaServicio() {
         Intent intent = new Intent(this, GetSomeService.class);
         startService(intent);
     }
-    public void creaAlarma(View view) {
+
+    public void creaAlarma() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000, alarmPendingIntent);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 3);
+        calendar.set(Calendar.MINUTE, 46);
+
+     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000*60, alarmPendingIntent);
+
     }
 
     private void createNotificationChannel() {
         channel = new NotificationChannel("IdPrueba", "CanalPrueba", NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription("Canal de pruebas");
+
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
     }
@@ -133,6 +169,47 @@ public class MainActivity extends AppCompatActivity {
         rutaImagen= imagen.getAbsolutePath();
         return imagen;
     }
+    private void actualiza() {
+        progeso=new ProgressDialog(this);
+        progeso.setMessage("Cargando...");
+        progeso.show();
+
+        url="http://192.168.1.133/BDAndroid/ActualizaRegistro.php";
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progeso.hide();
+                JSONArray json =response.optJSONArray("fotos");
+                JSONObject jsonObject=null;
+                try {
+                    jsonObject=json.getJSONObject(0);
+
+                    titulo=jsonObject.optString("titulo");
+                    descripcion=jsonObject.optString("descripcion");
+                    ruta=jsonObject.optString("ruta");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                urlImagen="http://192.168.1.133/BDAndroid/"+txtRutaC.getText();
+//                Toast.makeText(getApplicationContext(),"URL: "+urlImagen,Toast.LENGTH_SHORT).show();
+//                cargarWebServiceImagen(urlImagen);
+            }
+//            private void cargarWebServiceImagen(String urlImagen) {
+//                urlImagen = urlImagen.replace(" ","%20");
+//                ImageRequest imageRequest = new ImageRequest(urlImagen, response -> viewFotoC.setImageBitmap(response), 0, 0, ImageView.ScaleType.CENTER, null,
+//                        error -> Toast.makeText(getApplicationContext(),"No se puede cargar la imagen "+error.toString(),Toast.LENGTH_SHORT).show());
+//                request.add(imageRequest);
+//            }
+        }, error -> {
+            Toast.makeText(getApplicationContext(),"No se puede conectar: "+error.toString(),Toast.LENGTH_SHORT).show();
+            System.out.println();
+            progeso.hide();
+            Log.d("ERROR",error.toString());
+        });
+        request.add(jsonObjectRequest);
+    }
 
     private void cargarServicioWeb() {
          progeso=new ProgressDialog(this);
@@ -163,14 +240,11 @@ public class MainActivity extends AppCompatActivity {
                  String titulo=txtTitulo.getText().toString();
                  String descripcion=txtDesc.getText().toString();
                  String foto=conversorImgString(imgBitmap);
-
                  Map<String,String> parametros = new HashMap<>();
                  parametros.put("id",id);
                  parametros.put("titulo",titulo);
                  parametros.put("descripcion",descripcion);
                  parametros.put("foto",foto);
-
-
                  return parametros;
              }
          };
@@ -183,5 +257,6 @@ public class MainActivity extends AppCompatActivity {
         imagenString = Base64.encodeToString(imagenByte,Base64.DEFAULT);
         return imagenString;
     }
+
 
 }

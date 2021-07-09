@@ -1,11 +1,20 @@
 package com.example.aplicacionbdd;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,16 +23,14 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Console;
+import static com.example.aplicacionbdd.Helpers.NotificacionHelper.CANAL_ID;
 
 public class Consulta extends AppCompatActivity   {
     Button btnBuscarC;
@@ -33,6 +40,8 @@ public class Consulta extends AppCompatActivity   {
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     String urlImagen,url;
+
+    private NotificationManagerCompat notificationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -45,12 +54,15 @@ public class Consulta extends AppCompatActivity   {
         viewFotoC=findViewById(R.id.viewFotoC);
         request= Volley.newRequestQueue(this);
 
-        btnBuscarC.setOnClickListener(view -> cargarServidorWeb());
+        btnBuscarC.setOnClickListener(view -> {
+            cargarServidorWeb();
+
+        });
+
 
     }
-    private void comprobar (){
 
-    }
+
 
     private void cargarServidorWeb() {
         progeso=new ProgressDialog(this);
@@ -90,7 +102,9 @@ public class Consulta extends AppCompatActivity   {
             Log.d("ERROR",error.toString());
         });
         request.add(jsonObjectRequest);
-
     }
+
+
+
 
 }
