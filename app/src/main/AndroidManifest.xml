@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.aplicacionbdd">
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -21,8 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplicacionBdd"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".Consulta"></activity>
+        <activity android:name=".Mapa"></activity>
+        <activity android:name=".Consulta" />
 
         <meta-data
             android:name="com.google.android.actions"
@@ -41,14 +43,13 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Notificado"
-            android:label="Notificado" >
-        </activity>
+            android:label="Notificado"></activity>
 
         <service
             android:name=".GetSomeService"

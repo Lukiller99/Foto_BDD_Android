@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
     String url;
     JsonObjectRequest jsonObjectRequest;
     private LocationManager locationManager;
-    public static String titulo, descripcion, ruta;
+    public static String titulo, descripcion, ruta,vs1,vs2;
     LocationManager locManager;
 
-    Double v1,v2;
+    public static Double v1,v2;
 
     @SuppressLint("SetJavaScriptEnabled")
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -114,7 +114,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
-
+        pb.setOnClickListener(view->{
+            Intent intent = new Intent(this, Mapa.class);
+            startActivity(intent);
+        });
 
         onMapReady();
         creaAlarma();
@@ -188,8 +191,8 @@ public class MainActivity extends AppCompatActivity {
             v1=location.getLongitude();
             v2=location.getLatitude();
 
-            String vs1=Double.toString(v1);
-            String vs2=Double.toString(v2);
+           vs1=Double.toString(v1);
+            vs2=Double.toString(v2);
 
             txtLon.setText(vs1);
             txtLat.setText(vs2);
