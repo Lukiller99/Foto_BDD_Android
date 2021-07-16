@@ -1,6 +1,6 @@
 <?php
 $hostname="localhost";
-$database="fotos";
+$database="BDAndroid";
 $username="root";
 $password="";
 
@@ -38,4 +38,3 @@ if(isset($_GET["id"])){
     echo json_encode($json);
 
 }
-

@@ -1,6 +1,6 @@
 <?php 
 $hostname="localhost";
-$database="fotos";
+$database="BDAndroid";
 $username="root";
 $password="";
 $conexion = mysqli_connect($hostname,$username,$password,$database);

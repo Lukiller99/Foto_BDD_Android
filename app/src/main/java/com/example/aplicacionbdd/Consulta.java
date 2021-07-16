@@ -68,7 +68,7 @@ public class Consulta extends AppCompatActivity   {
         progeso.setMessage("Cargando...");
         progeso.show();
 
-        url="http://192.168.1.133/BDAndroid/JSONConsulta.php?id="+txtIDC.getText().toString();
+        url="http://192.168.200.6/BDAndroid/JSONConsulta.php?id="+txtIDC.getText().toString();
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -84,7 +84,7 @@ public class Consulta extends AppCompatActivity   {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                urlImagen="http://192.168.1.133/BDAndroid/"+txtRutaC.getText();
+                urlImagen="http://192.168.200.6/BDAndroid/"+txtRutaC.getText();
                 Toast.makeText(getApplicationContext(),"URL: "+urlImagen,Toast.LENGTH_SHORT).show();
                 cargarWebServiceImagen(urlImagen);
             }

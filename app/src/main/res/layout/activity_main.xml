@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/viewFoto"
         android:layout_width="match_parent"
-        android:layout_height="262dp" />
+        android:layout_height="196dp" />
 
     <Button
         android:id="@+id/btnCamara"
@@ -54,6 +54,22 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:numeric="signed|integer|decimal" />
 
+    <EditText
+        android:id="@+id/txtLon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Longitud"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtLat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Latitud"
+        android:inputType="textPersonName" />
+
     <Button
         android:id="@+id/btnEnviar"
         android:layout_width="match_parent"
@@ -65,5 +81,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Buscar" />
+
+    <Button
+        android:id="@+id/pb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+
 
 </LinearLayout>
